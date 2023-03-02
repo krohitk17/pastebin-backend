@@ -15,14 +15,14 @@ import * as bcrypt from 'bcrypt';
 export class AppService {
   constructor(
     @InjectModel(Data.name) private readonly dataModel: Model<DataDocument>,
-  ) { }
+  ) {}
 
   async getData(authData: GetBodyDto) {
     const data = await this.dataModel.findOne({ url: authData.url }).exec();
     if (!data) {
       throw new NotFoundException();
     }
-    console.log(data);
+    console.log('Found ' + data);
 
     if (data.password) {
       if ((await bcrypt.compare(authData.password, data.password)) === false) {
@@ -31,6 +31,7 @@ export class AppService {
     }
 
     if (data.burnOnRead) {
+      console.log('Deleting ' + data);
       await data.delete();
     }
     return data;

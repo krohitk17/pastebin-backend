@@ -4,7 +4,7 @@ import { GetBodyDto, PostBodyDto } from './body.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Get()
   test(): string {
@@ -13,17 +13,17 @@ export class AppController {
 
   @Get('get')
   async getData(@Body() body: GetBodyDto) {
-    console.log(body);
+    console.log('Call Get Request ' + body);
     const data = await this.appService.getData(body);
-    console.log(data);
+    console.log('Sending ' + data);
     return data;
   }
 
   @Post('save')
   async saveData(@Body() body: PostBodyDto) {
-    console.log(body);
+    console.log('Call Post Request ' + body);
     const url = await this.appService.saveData(body);
-    console.log(url);
+    console.log('Generated URL ' + url);
     return { url };
   }
 }
