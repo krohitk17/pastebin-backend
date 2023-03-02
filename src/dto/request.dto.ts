@@ -23,3 +23,17 @@ export class PostBodyDto {
   @IsNotEmpty()
   burnOnRead?: boolean;
 }
+
+export class UpdateBodyDto {
+  @IsString()
+  @IsNotEmpty()
+  formData: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  url: string;
+}

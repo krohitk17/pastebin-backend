@@ -3,17 +3,23 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class Data {
-  @Prop({ required: true })
-  url: string;
-
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   formData: string;
 
-  @Prop({ required: false, default: '' })
+  @Prop({ type: String, required: true, immutable: true })
+  url: string;
+
+  @Prop({ type: String, default: '', immutable: true })
   password: string;
 
-  @Prop({ required: false, default: false })
+  @Prop({ type: Boolean, default: false, immutable: true })
   burnOnRead: boolean;
+
+  @Prop({ type: Date, default: Date.now, immutable: true })
+  createdAt: Date;
+
+  @Prop({ type: Date, expires: '1d' })
+  updatedAt: Date;
 }
 
 export type DataDocument = HydratedDocument<Data>;
