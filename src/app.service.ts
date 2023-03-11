@@ -21,12 +21,14 @@ export class AppService {
   async getData(authData: GetBodyDto): Promise<ResponseDataDto> {
     const data = await this.dataModel.findOne({ url: authData.url }).exec();
     if (!data) {
+      console.log(authData.url + ' not found');
       throw new NotFoundException('Data not found');
     }
     console.log('Found ' + data);
 
     if (data.password) {
       if ((await bcrypt.compare(authData.password, data.password)) === false) {
+        console.log('Wrong password ' + authData.password);
         throw new UnauthorizedException();
       }
     }
@@ -53,30 +55,32 @@ export class AppService {
       : '';
     newData.burnOnRead = data.burnOnRead;
     newData.updatedAt = new Date();
-    console.log('Adding Data ' + newData);
-
     await newData.save();
+
+    console.log('Adding Data ' + newData);
     return { url: newData.url };
   }
 
   async updateData(newData: UpdateBodyDto): Promise<ResponseDataDto> {
     const data = await this.dataModel.findOne({ url: newData.url }).exec();
     if (!data) {
+      console.log(newData.url + ' not found');
       throw new NotFoundException('Data not found');
     }
     console.log('Found ' + data);
 
     if (data.password) {
       if ((await bcrypt.compare(newData.password, data.password)) === false) {
+        console.log('Wrong password ' + newData.password);
         throw new UnauthorizedException();
       }
     }
 
     data.formData = newData.formData;
     data.updatedAt = new Date();
-    console.log('Updated Data ' + data);
-
     await data.save();
+
+    console.log('Updated Data ' + data);
     return {
       formData: data.formData,
       burnOnRead: data.burnOnRead,

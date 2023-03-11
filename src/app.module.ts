@@ -8,12 +8,13 @@ import configuration from './configuration';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(configuration().dbConfig.mongo_url),
-    MongooseModule.forFeature([{ name: Data.name, schema: DataSchema }]),
     ConfigModule.forRoot({
+      envFilePath: ['.env.local', '.env'],
       isGlobal: true,
       load: [configuration],
     }),
+    MongooseModule.forRoot(configuration().dbConfig.mongo_url),
+    MongooseModule.forFeature([{ name: Data.name, schema: DataSchema }]),
   ],
   controllers: [AppController],
   providers: [AppService],
