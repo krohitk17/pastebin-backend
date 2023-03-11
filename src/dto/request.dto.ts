@@ -6,8 +6,7 @@ export class GetBodyDto {
   url: string;
 
   @IsString()
-  @IsNotEmpty()
-  password?: string;
+  password: string;
 }
 
 export class PostBodyDto {
@@ -16,8 +15,7 @@ export class PostBodyDto {
   formData: string;
 
   @IsString()
-  @IsNotEmpty()
-  password?: string;
+  password: string;
 
   @IsBoolean()
   @IsNotEmpty()
@@ -30,8 +28,7 @@ export class UpdateBodyDto {
   formData: string;
 
   @IsString()
-  @IsNotEmpty()
-  password?: string;
+  password: string;
 
   @IsString()
   @IsNotEmpty()
