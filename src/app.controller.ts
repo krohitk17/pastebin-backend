@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { GetBodyDto, PostBodyDto, UpdateBodyDto } from './dto/request.dto';
 import { ResponseDataDto, ResponseUrlDto } from './dto/response.dto';
@@ -13,7 +13,7 @@ export class AppController {
   }
 
   @Get('get')
-  async getData(@Body() body: GetBodyDto): Promise<ResponseDataDto> {
+  async getData(@Query() body: GetBodyDto): Promise<ResponseDataDto> {
     console.log('Call Get Request ' + body);
     const data = await this.appService.getData(body);
     console.log('Sending ' + data);
