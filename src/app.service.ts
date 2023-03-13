@@ -39,7 +39,9 @@ export class AppService {
     }
 
     return {
-      formData: data.formData,
+      title: data.title,
+      body: data.body,
+      syntax: data.syntax,
       burnOnRead: data.burnOnRead,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
@@ -49,10 +51,12 @@ export class AppService {
   async createData(data: PostBodyDto): Promise<ResponseUrlDto> {
     const newData = new this.dataModel();
     newData.url = uid(6);
-    newData.formData = data.formData;
+    newData.title = data.title;
+    newData.body = data.body;
     newData.password = data.password
       ? await bcrypt.hash(data.password, 10)
       : '';
+    newData.syntax = data.syntax;
     newData.burnOnRead = data.burnOnRead;
     newData.updatedAt = new Date();
     await newData.save();
@@ -70,19 +74,26 @@ export class AppService {
     console.log('Found ' + data);
 
     if (data.password) {
-      if ((await bcrypt.compare(newData.password, data.password)) === false) {
-        console.log('Wrong password ' + newData.password);
+      if (
+        (await bcrypt.compare(newData.oldPassword, data.password)) === false
+      ) {
+        console.log('Wrong password ' + newData.oldPassword);
         throw new UnauthorizedException();
       }
     }
 
-    data.formData = newData.formData;
+    data.title = newData.title;
+    data.body = newData.body;
     data.updatedAt = new Date();
+    data.password = newData.newPassword;
+    data.body = newData.body;
     await data.save();
 
     console.log('Updated Data ' + data);
     return {
-      formData: data.formData,
+      title: data.title,
+      body: data.body,
+      syntax: data.syntax,
       burnOnRead: data.burnOnRead,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,

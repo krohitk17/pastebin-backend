@@ -2,8 +2,15 @@ import { IsBoolean, IsDate, IsNotEmpty, IsString } from 'class-validator';
 
 export class ResponseDataDto {
   @IsString()
+  title: string;
+
+  @IsString()
   @IsNotEmpty()
-  formData: string;
+  body: string;
+
+  @IsString()
+  @IsNotEmpty()
+  syntax: string;
 
   @IsBoolean()
   @IsNotEmpty()

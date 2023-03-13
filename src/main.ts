@@ -5,6 +5,7 @@ import configuration from './configuration';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,
@@ -12,6 +13,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.enableCors();
 
   await app.listen(configuration().port);
   console.log(`Application is running on: ${await app.getUrl()}`);

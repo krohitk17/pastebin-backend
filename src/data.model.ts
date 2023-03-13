@@ -4,13 +4,23 @@ import configuration from './configuration';
 
 @Schema()
 export class Data {
+  @Prop({ type: String, default: '' })
+  title: string;
+
   @Prop({ type: String, required: true })
-  formData: string;
+  body: string;
+
+  @Prop({ type: String, required: true })
+  syntax: string;
 
   @Prop({ type: String, required: true, immutable: true })
   url: string;
 
-  @Prop({ type: String, default: '', immutable: true })
+  @Prop({
+    type: String,
+    default: '',
+    maxlength: 60,
+  })
   password: string;
 
   @Prop({ type: Boolean, default: false, immutable: true })
