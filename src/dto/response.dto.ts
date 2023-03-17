@@ -2,6 +2,7 @@ import { IsBoolean, IsDate, IsNotEmpty, IsString } from 'class-validator';
 
 export class ResponseDataDto {
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsString()
@@ -22,7 +23,7 @@ export class ResponseDataDto {
 
   @IsDate()
   @IsNotEmpty()
-  updatedAt: Date;
+  expiresAt: Date;
 }
 
 export class ResponseUrlDto {

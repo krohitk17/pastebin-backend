@@ -1,10 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import configuration from './configuration';
 
 @Schema()
 export class Data {
-  @Prop({ type: String, default: '' })
+  @Prop({ type: String, required: true })
   title: string;
 
   @Prop({ type: String, required: true })
@@ -20,6 +19,7 @@ export class Data {
     type: String,
     default: '',
     maxlength: 60,
+    immutable: true,
   })
   password: string;
 
@@ -29,8 +29,8 @@ export class Data {
   @Prop({ type: Date, default: Date.now, immutable: true })
   createdAt: Date;
 
-  @Prop({ type: Date, expires: configuration().dbConfig.expires })
-  updatedAt: Date;
+  @Prop({ type: Date, required: true, immutable: true, expires: 0 })
+  expiresAt: Date;
 }
 
 export type DataDocument = HydratedDocument<Data>;

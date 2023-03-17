@@ -12,6 +12,7 @@ export class GetBodyDto {
 
 export class PostBodyDto {
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsString()
@@ -29,29 +30,8 @@ export class PostBodyDto {
   @IsString()
   @IsNotEmpty()
   syntax: string;
-}
-
-export class UpdateBodyDto {
-  @IsString()
-  title: string;
 
   @IsString()
   @IsNotEmpty()
-  body: string;
-
-  @IsString()
-  @MaxLength(24)
-  oldPassword: string;
-
-  @IsString()
-  @MaxLength(24)
-  newPassword: string;
-
-  @IsString()
-  @IsNotEmpty()
-  url: string;
-
-  @IsString()
-  @IsNotEmpty()
-  syntax: string;
+  expiresAt: string;
 }
