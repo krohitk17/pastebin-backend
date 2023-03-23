@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Data, DataSchema } from './data.model';
+import { Data, DataSchema } from './data.schema';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './configuration';
 

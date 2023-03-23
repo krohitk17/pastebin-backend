@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class GetBodyDto {
   @IsString()
@@ -22,10 +22,6 @@ export class PostBodyDto {
   @IsString()
   @MaxLength(24)
   password: string;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  burnOnRead: boolean;
 
   @IsString()
   @IsNotEmpty()

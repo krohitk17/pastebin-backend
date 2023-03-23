@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 
 export class ResponseDataDto {
   @IsString()
@@ -12,10 +12,6 @@ export class ResponseDataDto {
   @IsString()
   @IsNotEmpty()
   syntax: string;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  burnOnRead: boolean;
 
   @IsDate()
   @IsNotEmpty()

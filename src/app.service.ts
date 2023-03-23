@@ -1,12 +1,11 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { uid } from 'rand-token';
 
-import { Data, DataDocument } from './data.model';
+import { Data, DataDocument } from './data.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GetBodyDto, PostBodyDto } from './dto/request.dto';
@@ -68,9 +67,8 @@ export class AppService {
       title: data.title,
       body: data.body,
       syntax: data.syntax,
-      burnOnRead: data.burnOnRead,
       createdAt: data.createdAt,
-      expiresAt: data.expiresAt,
+      expiresAt: data.burnOnRead ? new Date() : data.expiresAt,
     };
   }
 
@@ -83,8 +81,13 @@ export class AppService {
       ? await bcrypt.hash(data.password, 10)
       : '';
     newData.syntax = data.syntax;
-    newData.burnOnRead = data.burnOnRead;
-    newData.expiresAt = parseTimeString(data.expiresAt);
+    if (data.expiresAt === '0') {
+      newData.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+      newData.burnOnRead = true;
+    } else {
+      newData.expiresAt = parseTimeString(data.expiresAt);
+      newData.burnOnRead = false;
+    }
     await newData.save();
 
     console.log('Adding Data ' + newData);
