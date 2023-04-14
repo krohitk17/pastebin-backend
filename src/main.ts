@@ -1,8 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import configuration from './configuration';
 import { BodyValidationPipe } from './body.pipe';
+import ServerlessHttp, { Handler } from 'serverless-http';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +17,17 @@ async function bootstrap() {
   );
   app.enableCors();
 
-  await app.listen(configuration().port);
+  await app.init();
   console.log(`Application is running on: ${await app.getUrl()}`);
+
+  const expressApp = app.getHttpAdapter().getInstance();
+  return ServerlessHttp(expressApp);
 }
-bootstrap();
+
+let serverHandler: Handler;
+export const handler = async (event, context) => {
+  if (!serverHandler) {
+    serverHandler = await bootstrap();
+  }
+  return serverHandler(event, context);
+};
