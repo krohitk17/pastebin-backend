@@ -26,7 +26,7 @@ export class AppController {
     console.log('Call Post Request');
     console.log(body);
     const url = await this.appService.createData(body);
-    console.log('Generated URL ' + url);
+    console.log('Generated URL ' + url.url);
     return url;
   }
 }
