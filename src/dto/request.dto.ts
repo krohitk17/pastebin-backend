@@ -17,6 +17,7 @@ export class PostBodyDto {
 
   @IsString()
   @IsNotEmpty()
+  @MaxLength(10000)
   body: string;
 
   @IsString()
