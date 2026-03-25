@@ -1,11 +1,16 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
-import configuration from './configuration';
-import { BodyValidationPipe } from './body.pipe';
+import { GlobalExceptionFilter } from './filters/global-exception.filter';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
+
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -13,11 +18,16 @@ async function bootstrap() {
       forbidUnknownValues: true,
       transform: true,
     }),
-    new BodyValidationPipe(),
   );
-  app.enableCors();
 
-  await app.listen(configuration().port);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  app.enableCors({
+    origin: configService.get<string>('cors_origin'),
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
+  await app.listen(configService.get<number>('port') || 5001);
+  logger.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

@@ -1,28 +1,39 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
-export class GetBodyDto {
+const MAX_PASTE_TITLE_LENGTH = 500;
+const MAX_PASTE_BODY_LENGTH = 10000;
+
+export class GetPasteRequestDto {
   @IsString()
   @IsNotEmpty()
   url: string;
 
+  @IsOptional()
   @IsString()
-  @MaxLength(24)
-  password: string;
+  password?: string;
 }
 
-export class PostBodyDto {
+export class CreatePasteRequestDto {
   @IsString()
   @IsNotEmpty()
+  @MaxLength(MAX_PASTE_TITLE_LENGTH)
   title: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(10000)
+  @MaxLength(MAX_PASTE_BODY_LENGTH)
   body: string;
 
+  @IsOptional()
   @IsString()
-  @MaxLength(24)
-  password: string;
+  password?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -30,5 +41,8 @@ export class PostBodyDto {
 
   @IsString()
   @IsNotEmpty()
+  @Matches(/^(0|\d+[mhdwM])$/, {
+    message: 'expiresAt must be 0 or match <number><m|h|d|w|M>',
+  })
   expiresAt: string;
 }

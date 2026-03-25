@@ -2,12 +2,15 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 @Schema()
-export class Data {
+export class Paste {
   @Prop({ type: String, required: true })
   title: string;
 
-  @Prop({ type: String, required: true })
-  body: string;
+  @Prop({ type: String, default: '', index: true })
+  ownerId: string;
+
+  @Prop({ type: String, required: true, immutable: true })
+  objectKey: string;
 
   @Prop({ type: String, required: true })
   syntax: string;
@@ -19,19 +22,18 @@ export class Data {
     type: String,
     default: '',
     maxlength: 60,
-    immutable: true,
   })
   password: string;
 
-  @Prop({ type: Boolean, default: false, immutable: true })
+  @Prop({ type: Boolean, default: false })
   burnOnRead: boolean;
 
   @Prop({ type: Date, default: Date.now, immutable: true })
   createdAt: Date;
 
-  @Prop({ type: Date, required: true, immutable: true, expires: 0 })
+  @Prop({ type: Date, required: true, expires: 0 })
   expiresAt: Date;
 }
 
-export type DataDocument = HydratedDocument<Data>;
-export const DataSchema = SchemaFactory.createForClass(Data);
+export type PasteDocument = HydratedDocument<Paste>;
+export const PasteSchema = SchemaFactory.createForClass(Paste);

@@ -1,6 +1,6 @@
 import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 
-export class ResponseDataDto {
+export class GetPasteResponseDto {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -22,7 +22,7 @@ export class ResponseDataDto {
   expiresAt: Date;
 }
 
-export class ResponseUrlDto {
+export class CreatePasteResponseDto {
   @IsString()
   @IsNotEmpty()
   url: string;

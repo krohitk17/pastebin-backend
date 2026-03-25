@@ -45,6 +45,46 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Environment variables
+
+This service stores paste metadata in MongoDB and paste bodies in S3-compatible object storage.
+
+Core app:
+
+- `PORT`: API port (default `5001`).
+- `APP_URL`: Public backend URL (default `http://localhost:5001`).
+- `CORS_ORIGIN`: Allowed frontend origin (default `http://localhost:3000`).
+
+Database:
+
+- `MONGO_URL`: MongoDB connection string.
+
+Auth/security:
+
+- `BCRYPT_ROUNDS`: Password hashing rounds (default `12`).
+- `JWT_ACCESS_SECRET`: Secret for access tokens.
+- `JWT_REFRESH_SECRET`: Secret for refresh tokens.
+- `JWT_ACCESS_EXPIRES_IN`: Access token TTL (default `15m`).
+- `JWT_REFRESH_EXPIRES_IN`: Refresh token TTL (default `7d`).
+
+Paste behavior:
+
+- `EXPIRATION_TIME`: Default paste expiry (default `1d`).
+- `MIN_PASSWORD_LENGTH`: Minimum password length (default `8`).
+- `MAX_PASSWORD_LENGTH`: Maximum password length (default `60`).
+- `MAX_PASTE_TITLE_LENGTH`: Maximum title length (default `500`).
+- `MAX_PASTE_BODY_LENGTH`: Maximum body length (default `10000`).
+- `MAX_PASTE_SIZE`: Legacy field currently not enforced by request validation.
+
+Object storage (S3-compatible):
+
+- `S3_BUCKET`: Bucket used to store paste bodies.
+- `S3_REGION`: Bucket region (default `us-east-1`).
+- `S3_ENDPOINT`: Optional custom endpoint (for example, MinIO).
+- `S3_ACCESS_KEY_ID`: Access key for object storage.
+- `S3_SECRET_ACCESS_KEY`: Secret key for object storage.
+- `S3_FORCE_PATH_STYLE`: Set to `true` for path-style endpoints.
+
 ## Test
 
 ```bash
